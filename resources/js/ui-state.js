@@ -1,12 +1,13 @@
 export default () => ({
     module: 'Cinematica 1D',
-    terminalLines: [
-        '>> Inicializando motor de fisica ...',
-        '>> Sistema listo.'
-    ],
+    status: 'Sistema listo: Cinematica 1D cargada.',
+    mobileMenu: false,
+    showItems: false,
+    showProps: false,
 
     changeModule(newModule) {  
+        if (this.module === newModule) return;
         this.module = newModule;
-        this.terminalLines.push(`>> Cambiando a ${newModule} ...`);
+        this.status = `Ejecutando: ${newModule}`;
     } 
 });
