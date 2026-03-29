@@ -1,15 +1,17 @@
+import { initGrid } from "./grid.js";
+import { initViewport } from "./viewport.js";
+import { initCoordinates } from "./coordinates.js"; 
+
 let canvas;
 
 export function initCanvas() {
     canvas = new fabric.Canvas("physicsCanvas", {
         selection: true,
-        // Te recomiendo agregar esto para mejor rendimiento con objetos físicos
         renderOnAddRemove: false 
     });
 
     const container = document.getElementById("canvas-container");
 
-    // Observador moderno: Si el contenedor cambia de tamaño, ajusta el canvas automáticamente
     const resizeObserver = new ResizeObserver(() => {
         resizeCanvas();
     });
@@ -22,15 +24,15 @@ export function initCanvas() {
 
 function resizeCanvas() {
     const container = document.getElementById("canvas-container");
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
     
-    // Fabric maneja su propio wrapper, le pasamos las medidas exactas del padre
-    canvas.setWidth(container.clientWidth);
-    canvas.setHeight(container.clientHeight);
-    
+    canvas.setDimensions({
+        width: width,
+        height: height
+    }, { backstoreOnly: false });
+
     canvas.calcOffset(); 
     canvas.renderAll();
-}
-
-export function getCanvas() {
-    return canvas;
 }

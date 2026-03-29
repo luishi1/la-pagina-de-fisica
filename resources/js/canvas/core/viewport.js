@@ -1,13 +1,15 @@
 export function initViewport(canvas) {
+    
 
-    // 🔍 ZOOM
     canvas.on('mouse:wheel', function(opt) {
         let delta = opt.e.deltaY;
         let zoom = canvas.getZoom();
+        
+        const step = 0.85;
+        if (delta > 0) zoom *= step;
+        else zoom /= step;
 
-        zoom *= 0.999 ** delta;
-
-        zoom = Math.min(Math.max(zoom, 0.2), 5);
+        zoom = Math.min(Math.max(zoom, 0.05), 20);
 
         canvas.zoomToPoint(
             { x: opt.e.offsetX, y: opt.e.offsetY },
@@ -16,18 +18,22 @@ export function initViewport(canvas) {
 
         opt.e.preventDefault();
         opt.e.stopPropagation();
+        canvas.requestRenderAll();
     });
 
-    // 🖐️ PAN
+
     let isDragging = false;
     let lastX, lastY;
 
     canvas.on('mouse:down', function(opt) {
-        if (opt.e.altKey) {
+        // Solo arrastramos si NO tocamos un objeto (o si presionamos Alt)
+        if (!opt.target || opt.e.altKey) {
             isDragging = true;
-            canvas.selection = false;
+            canvas.selection = false; 
+            
             lastX = opt.e.clientX;
             lastY = opt.e.clientY;
+            canvas.defaultCursor = 'grabbing';
         }
     });
 
@@ -36,11 +42,12 @@ export function initViewport(canvas) {
             let e = opt.e;
             let vpt = canvas.viewportTransform;
 
+            // Mover la cámara
             vpt[4] += e.clientX - lastX;
             vpt[5] += e.clientY - lastY;
 
             canvas.requestRenderAll();
-
+            
             lastX = e.clientX;
             lastY = e.clientY;
         }
@@ -48,6 +55,9 @@ export function initViewport(canvas) {
 
     canvas.on('mouse:up', function() {
         isDragging = false;
-        canvas.selection = true;
+        
+        // Volvemos a activar la selección por si luego quieres mover objetos
+        canvas.selection = true; 
+        canvas.defaultCursor = 'default';
     });
 }

@@ -33,3 +33,16 @@
     [x-cloak] { display: none !important; }
 
 }
+
+canvas {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    outline: none;
+}
+
+.canvas-grid {
+    background-color: #1B1B2E !important;
+    background-image: none !important;    
+}
