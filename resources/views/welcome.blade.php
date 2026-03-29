@@ -7,9 +7,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 </head>
-<body class="h-full bg-[#0F0F1A] text-slate-300 flex flex-col p-2 md:p-4 gap-3 overflow-hidden" x-data="physicsApp()">
+<body class="h-full bg-[#0F0F1A] text-slate-300 flex flex-col p-2 md:p-4 gap-3 overflow-hidden" x-data="physicsApp()" x-init="initCanvas()">
 
-    <header class="flex flex-col shrink-0 shadow-2xl z-[100] relative">
+    <header class="flex flex-col shrink-0 shadow-2xl z-100 relative">
         <div class="bg-[#1B1B2E] rounded-t-3xl border-t border-x border-white/5 px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="bg-blue-600 w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center font-black text-xl md:text-2xl text-white shadow-[0_0_15px_rgba(37,99,235,0.3)]">ΣF</div>
@@ -47,13 +47,14 @@
         </nav>
     </header>
 
+    
     <div class="flex-1 flex gap-3 min-h-0 relative">
         
         <aside 
             x-cloak
             @click.away="if(window.innerWidth < 768) showItems = false"
             :class="showItems ? 'translate-x-0' : '-translate-x-[120%] md:translate-x-0'"
-            class="fixed md:relative z-[90] left-3 md:left-0 top-[150px] md:top-0 bottom-3 md:bottom-0 w-[80px] bg-[#1B1B2E] rounded-[2.5rem] p-3 flex flex-col items-center gap-4 border border-white/10 shadow-2xl transition-all duration-500 shrink-0">
+            class="fixed md:relative z-90 left-3 md:left-0 top-150px md:top-0 bottom-3 md:bottom-0 w-20 bg-[#1B1B2E] rounded-[2.5rem] p-3 flex flex-col items-center gap-4 border border-white/10 shadow-2xl transition-all duration-500 shrink-0">
             
             <button @click="showItems = false" class="md:hidden w-10 h-10 flex items-center justify-center bg-white/5 rounded-full text-red-500 p-2 mb-2">✕</button>
             
@@ -73,7 +74,7 @@
         </aside>
 
         <main class="flex-1 flex flex-col min-h-0 relative z-10">
-            <div class="md:hidden absolute top-4 left-0 right-0 px-4 flex justify-between z-[80] pointer-events-none">
+            <div class="md:hidden absolute top-4 left-0 right-0 px-4 flex justify-between z-80 pointer-events-none">
                 <button x-show="!showItems" x-transition @click.stop="showItems = true" class="pointer-events-auto w-14 h-14 bg-blue-600 text-white rounded-2xl shadow-xl flex items-center justify-center active:scale-90 border border-white/20">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 </button>
@@ -82,19 +83,21 @@
                 </button>
             </div>
 
-            <div id="canvas-container" class="flex-1 canvas-grid rounded-[2.5rem] border-[10px] md:border-[16px] border-[#1B1B2E] relative overflow-hidden flex items-center justify-center shadow-inner">
-                <canvas id="physicsCanvas" class="touch-none z-10"></canvas>
-                <div class="hidden sm:block absolute top-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/5 text-[10px] font-black text-white uppercase tracking-widest shadow-2xl">
-                    Escenario: <span class="text-blue-400" x-text="module"></span>
-                </div>
-            </div>
+            <!-- ACA ESTA EL CANVAS LUIS NO TE OLVIDES ACA ESTA EL CANVAS HOLA SOY LUIS Y EL CANVAS ESTA ACA-->
+           <div id="canvas-container" class="flex-1 canvas-grid rounded-[2.5rem] border-10 md:border-16 border-[#1B1B2E] relative overflow-hidden shadow-inner">
+    <canvas id="physicsCanvas" class="touch-none z-10"></canvas>
+    
+    <div class="hidden sm:block absolute top-6 left-8 bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/5 text-[10px] font-black text-white uppercase tracking-widest shadow-2xl z-20">
+        Escenario: <span class="text-blue-400" x-text="module"></span>
+    </div>
+</div>
         </main>
 
         <aside 
             x-cloak
             @click.away="if(window.innerWidth < 768) showProps = false"
             :class="showProps ? 'translate-x-0' : 'translate-x-[120%] md:translate-x-0'"
-            class="fixed md:relative z-[90] right-3 md:right-0 top-[150px] md:top-0 bottom-3 md:bottom-0 w-[320px] bg-[#1B1B2E] rounded-[2.5rem] flex flex-col border border-white/10 shadow-2xl transition-all duration-500 overflow-hidden shrink-0">
+            class="fixed md:relative z-90 right-3 md:right-0 top-37.5 md:top-0 bottom-3 md:bottom-0 w-[320px] bg-[#1B1B2E] rounded-[2.5rem] flex flex-col border border-white/10 shadow-2xl transition-all duration-500 overflow-hidden shrink-0">
             
             <div class="bg-black/20 p-6 border-b border-white/5 flex justify-between items-center">
                 <h2 class="font-black text-[10px] uppercase text-slate-400 tracking-widest flex items-center gap-2">
@@ -110,6 +113,7 @@
         </aside>
     </div>
 
+     <!-- la famosa terminal  -->
     <footer class="h-28 md:h-32 bg-[#141424] rounded-3xl border border-white/5 shadow-2xl flex flex-col overflow-hidden shrink-0">
         <div class="px-5 py-2 bg-black/40 border-b border-white/5 text-[9px] font-black text-slate-500 uppercase tracking-widest">Terminal de Salida</div>
         <div class="flex-1 font-mono text-[11px] bg-[#05050a] p-5 space-y-1 overflow-y-auto custom-scroll">

@@ -1,14 +1,11 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
-// Importamos la función por defecto y la nombramos uiState
-import uiState from './ui-state'; 
-import './canvas-logic';
+import uiState from './ui/ui-state'; 
+import { initCanvas } from './canvas/core/canvas';
 
 window.Alpine = Alpine;
+window.initCanvas = initCanvas;
 
-// Registro del componente: 
-// El primer parámetro es el nombre que usas en x-data="physicsApp()"
-// El segundo es la función que importamos arriba
 Alpine.data('physicsApp', uiState); 
 
 Alpine.start();
