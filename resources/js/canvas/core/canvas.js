@@ -10,6 +10,8 @@ export function initCanvas() {
         renderOnAddRemove: false 
     });
 
+    window.canvas = canvas;
+    
     const container = document.getElementById("canvas-container");
 
     const resizeObserver = new ResizeObserver(() => {
@@ -35,4 +37,5 @@ function resizeCanvas() {
 
     canvas.calcOffset(); 
     canvas.renderAll();
+
 }
